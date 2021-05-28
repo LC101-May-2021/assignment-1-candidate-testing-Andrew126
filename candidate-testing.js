@@ -3,8 +3,8 @@ const input = require('readline-sync');
 // TODO 2: modify your quiz app to ask 5 questions //
 
 // TODO 1.1a: Define candidateName // 
-let candidateName = input.question("What is your name? ");
-  console.log("Hello " + candidateName + ". Hope you're doing well!");
+
+let candidateName = "";
 
 // TODO 1.2a: Define question, correctAnswer, and candidateAnswer //
 let question = "Who was the first American woman in space? ";
@@ -14,43 +14,59 @@ let questions = ["Who was the first American woman in space? ", "True or false: 
 let correctAnswers = ["Sally Ride", "true", "40", "Trajectory", "3"];
 let candidateAnswers = [];
 
+// This is for 1.2a on the sheet. It's asking for a "single question quiz".
 
-function askForName() {
-  // TODO 1.1b: Ask for candidate's name //
-  let candidateAnswer = input.question(question);
-  if (candidateAnswer === correctAnswer) {
+  candidateAnswer = input.question(question);
+  if (candidateAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
     console.log("Correct!");
   } else {
     console.log("That is incorrect.");
   }
+
+
+function askForName() {
+  // TODO 1.1b: Ask for candidate's name //
+    candidateName = input.question("What is your name? ");
+    console.log("Candidate Name: " + candidateName);
+    console.log();
 }
 
 function askQuestion() {
   // TODO 1.2b: Ask candidate the question and assign the response as candidateAnswer //
-for (let i = 0; i < questions.length; i++) {
-  let candidateAnswer = input.question(questions[i]);
-  candidateAnswers.push(candidateAnswer);
-  console.log(candidateAnswers[3]);
+  for (let i = 0; i < questions.length; i++) {
+    candidateAnswer = input.question(questions[i]);
+    candidateAnswers.push(candidateAnswer);
+    console.log();
   }
 }
 
-
-console.log(candidateAnswers[3]);
 function gradeQuiz(candidateAnswers) {
 
   // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
-
-
-  let grade;
-  
-
+  for (let i = 0; i < questions.length; i++) {
+    console.log(`${i+1}) ${questions[i]}`);
+    console.log(`Your Answer: ${candidateAnswers[i]}`);
+    console.log(`Correct Answer: ${correctAnswers[i]}`);
+    console.log();
+  }
+  let grade = 0;
+  for (let i = 0; i < questions.length; i++) {
+    if (candidateAnswers[i].toLowerCase() === correctAnswers[i].toLowerCase()){
+      grade = (grade + 1)
+    }
+  }
+  console.log(`>>> Overall Grade: ${grade*20}% (${grade} of 5 responses correct) <<<`)
+  if (grade >= 4) {
+    console.log(">>> Status: PASSED <<<");
+  } else {
+    console.log(">>> Status: FAILED <<<");
+  }
   return grade;
 }
 
 function runProgram() {
   askForName();
-  // TODO 1.1c: Ask for candidate's name //
-  
+  // TODO 1.1c: Ask for candidate's name // 
   askQuestion();
   gradeQuiz(this.candidateAnswers);
 }
